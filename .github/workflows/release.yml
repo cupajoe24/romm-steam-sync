@@ -1,0 +1,119 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+
+jobs:
+  build-windows:
+    name: Build Windows Release Archive
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install -e .[dev]
+
+      - name: Run Unit Tests
+        run: |
+          python -m pytest tests/unit
+
+      - name: Build Executables & Release Archive
+        run: |
+          python scripts/build_windows_exe.py
+
+      - name: Stash Windows Archive Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-archive-windows
+          path: dist/windows/*.zip
+          if-no-files-found: error
+
+  build-linux:
+    name: Build Linux Release Archive
+    runs-on: ubuntu-22.04
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Install System Dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-tk
+
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install Dependencies
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          python -m pip install -e .[dev]
+
+      - name: Run Unit Tests
+        run: |
+          python -m pytest tests/unit
+
+      - name: Build Linux Binary & Release Archive
+        run: |
+          python scripts/build_linux_bin.py
+
+      - name: Stash Linux Archive Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-archive-linux
+          path: dist/linux/*.tar.gz
+          if-no-files-found: error
+
+  publish-release:
+    name: Publish Release & Attestations
+    needs: [build-windows, build-linux]
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Download Stashed Archives
+        uses: actions/download-artifact@v4
+        with:
+          path: release-assets
+          merge-multiple: true
+
+      - name: Generate SHA-256 Checksums
+        working-directory: release-assets
+        run: |
+          sha256sum *.zip *.tar.gz > SHA256SUMS.txt
+          echo "Generated SHA-256 Checksums:"
+          cat SHA256SUMS.txt
+
+      - name: Attest Build Provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: 'release-assets/*'
+
+      - name: Create / Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: |
+            release-assets/*.zip
+            release-assets/*.tar.gz
+            release-assets/SHA256SUMS.txt
+          generate_release_notes: true

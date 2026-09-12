@@ -1,0 +1,93 @@
+name: Bug Report
+description: Create a report to help us improve romm-steam-sync
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for reporting an issue! Please fill out the sections below to help us diagnose and resolve the problem.
+
+  - type: checkboxes
+    id: mandatory-verification
+    attributes:
+      label: Pre-Submission Verification
+      description: Please verify the following requirements before submitting this issue.
+      options:
+        - label: "If reporting a game launch issue: I have manually verified that the game ROM/disc and its libretro core start and run successfully directly in RetroArch or RetroDECK outside of Steam."
+          required: true
+        - label: "I have verified that Steam was completely closed before and during the synchronization process."
+          required: true
+        - label: "I have searched the existing issues and discussions to ensure this is not a duplicate."
+          required: true
+
+  - type: textarea
+    id: description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is.
+      placeholder: Describe what happened and what you expected to happen instead.
+    validations:
+      required: true
+
+  - type: textarea
+    id: reproduction-steps
+    attributes:
+      label: Steps to Reproduce
+      description: Detailed steps explaining how to reproduce the issue.
+      placeholder: |
+        1. Go to '...'
+        2. Click on '....'
+        3. See error
+    validations:
+      required: true
+
+  - type: dropdown
+    id: os
+    attributes:
+      label: Operating System
+      description: Select your operating system.
+      options:
+        - Windows 11
+        - Windows 10
+        - Linux (SteamOS / Steam Deck)
+        - Linux (Desktop - Flatpak / Native)
+        - macOS
+        - Other (specify in description)
+    validations:
+      required: true
+
+  - type: dropdown
+    id: emulator-flavor
+    attributes:
+      label: Emulator Flavor
+      description: Which emulator installation flavor are you using?
+      options:
+        - RetroArch (Steam release)
+        - RetroArch (Standalone installer / archive)
+        - RetroArch (Flatpak)
+        - RetroDECK (Flatpak)
+        - Other / Not Applicable
+    validations:
+      required: true
+
+  - type: input
+    id: romm-version
+    attributes:
+      label: RomM Server Version
+      description: The version of your self-hosted RomM instance (found in the footer or settings page of your RomM web interface, e.g., 4.9.0).
+      placeholder: e.g., 4.9.0
+
+  - type: input
+    id: app-version
+    attributes:
+      label: romm-steam-sync Version
+      description: The version of romm-steam-sync you are running (found in the Settings tab header or near the top of romm-steam-sync.log).
+      placeholder: e.g., 0.1.4
+
+  - type: textarea
+    id: logs
+    attributes:
+      label: Relevant Log Output
+      description: Please provide relevant log excerpts from the console or log file (%APPDATA%\romm-steam-sync\romm-steam-sync.log or ~/.local/share/romm-steam-sync/romm-steam-sync.log).
+      render: shell

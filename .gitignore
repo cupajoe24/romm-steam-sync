@@ -1,0 +1,51 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
+# Unit test / coverage reports
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual Environments
+.venv/
+.venv_linux/
+venv/
+ENV/
+env/
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
+
+# Context & Reference Directories
+context/
+
+# Logs & Runtime Artifacts
+*.log
+romm-steam-sync.log
+
+# Databases & Local SQLite files
+*.db
+*.sqlite
+*.sqlite3
+
+# Environment Variables & Secrets
+.env
+.env.*
+*.env
+
+# Temporary & Backup files
+*.bak
+*.tmp
+*.swp
+*~
+scratch/

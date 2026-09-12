@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "romm-steam-sync"
+version = "0.1.5"
+description = "Multi-platform desktop application to synchronize RomM retro game libraries to Steam"
+readme = "README.md"
+license = { text = "GPL-3.0-only" }
+requires-python = ">=3.9"
+dependencies = [
+    "customtkinter>=5.2.0",
+    "pillow>=10.0.0",
+    "requests>=2.31.0",
+    "psutil>=5.9.0",
+    "pydantic>=2.0.0",
+    "py7zr>=0.20.0",
+    "vdf>=3.4",
+]
+
+[project.urls]
+Homepage = "https://github.com/cupajoe24/romm-steam-sync"
+Repository = "https://github.com/cupajoe24/romm-steam-sync"
+Issues = "https://github.com/cupajoe24/romm-steam-sync/issues"
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=7.4.0",
+    "pyinstaller>=6.0.0",
+]
+
+[project.scripts]
+romm-steam-sync = "romm_steam_sync.__main__:main"
+romm-steam-sync-launcher = "romm_steam_sync.launcher.__main__:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
