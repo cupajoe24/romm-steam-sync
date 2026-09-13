@@ -124,9 +124,9 @@ For in-depth architectural details, compatibility lists, and component guides, e
 
 romm-steam-sync builds upon and takes inspiration from outstanding open-source projects in the retro gaming ecosystem:
 
-- **[RomM (Rom Manager)](https://github.com/rommapp/romm)**: The exceptional self-hosted retro games library manager that makes centralized ROM, save, and metadata organization possible.
-- **[Tender (formerly `decky-romm-sync`)](https://github.com/danielcopper/romm-tender)**: Daniel Copper's pioneering Steam Deck Decky Loader plugin for RomM. romm-steam-sync adapts Tender's domain concepts, database design, and RomM API interactions for standalone desktop environments across Windows, macOS, and Linux.
-- **[Gavel (`romm-gavel`)](https://github.com/rommapp/romm)**: The normative save synchronization engine and specification that provides mathematically proven, conflict-safe bidirectional save syncing between local emulators and the RomM server.
+- **[RomM (Rom Manager)](https://github.com/rommapp/romm)**: The self-hosted retro games library manager that makes centralized ROM, save, and metadata organization possible.
+- **[Tender (formerly `decky-romm-sync`)](https://github.com/danielcopper/romm-tender)**: Steam Deck Decky Loader plugin for RomM. romm-steam-sync adapts Tender's domain concepts, database design, and RomM API interactions for standalone desktop environments across Windows, macOS, and Linux.
+- **[Gavel (`romm-gavel`)](https://github.com/rommapp/romm)**: The save synchronization engine and specification that provides conflict-safe bidirectional save syncing between local emulators and the RomM server.
 
 ---
 
