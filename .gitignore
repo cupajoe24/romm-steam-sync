@@ -26,6 +26,9 @@ env/
 .DS_Store
 Thumbs.db
 
+# Agent Skills
+.agent/skills/
+
 # Context & Reference Directories
 context/
 
