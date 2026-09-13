@@ -18,10 +18,10 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.11'
           cache: 'pip'
@@ -40,7 +40,7 @@ jobs:
           python scripts/build_windows_exe.py
 
       - name: Stash Windows Archive Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-archive-windows
           path: dist/windows/*.zip
@@ -52,7 +52,7 @@ jobs:
 
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Install System Dependencies
         run: |
@@ -60,7 +60,7 @@ jobs:
           sudo apt-get install -y python3-tk
 
       - name: Set up Python 3.11
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v7
         with:
           python-version: '3.11'
           cache: 'pip'
@@ -79,7 +79,7 @@ jobs:
           python scripts/build_linux_bin.py
 
       - name: Stash Linux Archive Artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: release-archive-linux
           path: dist/linux/*.tar.gz
@@ -92,7 +92,7 @@ jobs:
 
     steps:
       - name: Download Stashed Archives
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: release-assets
           merge-multiple: true
@@ -105,12 +105,12 @@ jobs:
           cat SHA256SUMS.txt
 
       - name: Attest Build Provenance
-        uses: actions/attest-build-provenance@v2
+        uses: actions/attest-build-provenance@v4
         with:
           subject-path: 'release-assets/*'
 
       - name: Create / Update GitHub Release
-        uses: softprops/action-gh-release@v2
+        uses: softprops/action-gh-release@v3
         with:
           files: |
             release-assets/*.zip
