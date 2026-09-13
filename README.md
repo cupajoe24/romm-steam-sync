@@ -15,7 +15,7 @@ romm-steam-sync is a desktop application that seamlessly connects your self-host
 - **On-Demand ROM Downloads**: Conserves local disk space by downloading games from your RomM server only when you click "Play" in Steam, complete with automatic archive extraction for compressed files (.zip, .7z, .tar) for platforms that cannot play archives.
 - **Bidirectional Save & Playtime Sync**: Syncs save states (coming soon), battery saves/memory cards, and play sessions back and forth with RomM using Gavel's normative decision engine and specialized memory card strategy handlers.
 - **Multi-Version Game Groups**: Combines regional variants, revisions, and multi-disc releases into a single Steam shortcut with an interactive version selection launcher.
-- **Broad Emulator Compatibility**: Supports RetroArch across all major distribution flavors (Steam release, standalone installer, Flatpak) as well as RetroDECK on Linux and Steam Deck.
+- **Broad RetroArch Compatibility**: Supports RetroArch across all major distribution flavors (Steam release, standalone installer, Flatpak) as well as RetroDECK on Linux and Steam Deck.
 - **Steam Safety & Rollback Guards**: Monitors running processes to alert you before modifying Steam configuration files, with automated pre-sync backups and one-click rollback support.
 
 ---
