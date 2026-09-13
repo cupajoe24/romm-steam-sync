@@ -192,7 +192,7 @@ def main() -> None:
     # Phase 3: Create portable release tarball containing romm-steam-sync
     logger.info("=== Phase 3: Creating portable release tarball ===")
     version_str = f"v{__version__}"
-    release_tarball = linux_dist_dir / f"romm-steam-sync-{version_str}-x86_64.tar.gz"
+    release_tarball = linux_dist_dir / f"romm-steam-sync-{version_str}-linux-x86_64.tar.gz"
 
     with tarfile.open(release_tarball, "w:gz") as tar:
         tar.add(final_app, arcname="romm-steam-sync")

@@ -150,7 +150,7 @@ def main() -> None:
     # Phase 3: Create portable release zip archive containing romm-steam-sync.exe
     logger.info("=== Phase 3: Creating portable release zip archive ===")
     version_str = f"v{__version__}"
-    release_zip = windows_dist_dir / f"romm-steam-sync-{version_str}-x86_64.zip"
+    release_zip = windows_dist_dir / f"romm-steam-sync-{version_str}-windows-x86_64.zip"
 
     with zipfile.ZipFile(release_zip, "w", compression=zipfile.ZIP_DEFLATED) as zf:
         zf.write(final_app, arcname="romm-steam-sync.exe")
