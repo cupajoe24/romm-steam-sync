@@ -36,7 +36,7 @@ class VersionInfo(NamedTuple):
         return self.version_string
 
 
-VERSION_INFO = VersionInfo(major=0, minor=1, bugfix=5)
+VERSION_INFO = VersionInfo(major=0, minor=1, bugfix=6)
 __version__ = VERSION_INFO.version_string
 
 

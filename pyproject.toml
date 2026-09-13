@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "romm-steam-sync"
-version = "0.1.5"
+version = "0.1.6"
 description = "Multi-platform desktop application to synchronize RomM retro game libraries to Steam"
 readme = "README.md"
 license = { text = "GPL-3.0-only" }
