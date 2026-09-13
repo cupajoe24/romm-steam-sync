@@ -1,5 +1,5 @@
 <h1 align="center">romm-steam-sync</h1>
-<h3 align="center">A RomM client for syncing your library to Steam</h3>
+<h3 align="center">A desktop RomM client for syncing your library to Steam</h3>
 
 romm-steam-sync is a desktop application that seamlessly connects your self-hosted [RomM](https://github.com/rommapp/romm) retro gaming library directly to Steam on Windows, macOS (coming soon), and Linux. It automatically organizes your games into Steam collections, downloads high-resolution artwork, and launches titles through RetroArch or RetroDECK with a single click. With on-demand downloading and save file synchronization, you can play your classic collection anywhere while keeping your saves and playtime in sync.
 
