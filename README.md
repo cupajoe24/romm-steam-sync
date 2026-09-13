@@ -1,7 +1,7 @@
 <h1 align="center">romm-steam-sync</h1>
 <h3 align="center">A RomM client for syncing your library to Steam</h3>
 
-romm-steam-sync is a desktop application that seamlessly connects your self-hosted RomM retro gaming library directly to Steam on Windows, macOS (coming soon), and Linux. It automatically organizes your games into Steam collections, downloads high-resolution artwork, and launches titles through RetroArch or RetroDECK with a single click. With intelligent on-demand downloading and bidirectional save file synchronization, you can play your classic collection anywhere while keeping your saves and playtime in sync.
+romm-steam-sync is a desktop application that seamlessly connects your self-hosted [RomM](https://github.com/rommapp/romm) retro gaming library directly to Steam on Windows, macOS (coming soon), and Linux. It automatically organizes your games into Steam collections, downloads high-resolution artwork, and launches titles through RetroArch or RetroDECK with a single click. With on-demand downloading and save file synchronization, you can play your classic collection anywhere while keeping your saves and playtime in sync.
 
 > [!WARNING]
 > This software is still a work in progress and is in a very alpha state. I strongly recommend following the backup steps listed below before running it. Please file any issues you encounter in the issue tracker. Also check the [compatibility matrix](docs/compatibility.md) to see if the cores you are using are supported.
@@ -10,10 +10,10 @@ romm-steam-sync is a desktop application that seamlessly connects your self-host
 
 ## Features
 
-- **Automated Steam Library Sync**: Synchronizes RomM platforms into Steam as non-Steam shortcuts with native collection categories and automatic title resolution.
-- **High-Resolution Artwork**: Automatically fetches portrait posters, horizontal capsules, hero banners, transparent logos, and icons using SteamGridDB, with seamless fallback to RomM cover art.
+- **Automated Steam Library Sync**: Synchronizes RomM platforms into Steam as non-Steam shortcuts with native collection categories.
+- **High-Resolution Artwork**: Automatically fetches portrait posters, hero banners, logos, and icons using SteamGridDB.
 - **On-Demand ROM Downloads**: Conserves local disk space by downloading games from your RomM server only when you click "Play" in Steam, complete with automatic archive extraction for compressed files (.zip, .7z, .tar) for platforms that cannot play archives.
-- **Bidirectional Save & Playtime Sync**: Syncs save states (coming soon), battery saves/memory cards, and play sessions back and forth with RomM using Gavel's normative decision engine and specialized memory card strategy handlers.
+- **Bidirectional Save & Playtime Sync**: Syncs save states (coming soon), cartridge saves/memory cards, and play sessions back and forth with RomM using [Gavel's](https://github.com/danielcopper/romm-gavel) normative decision engine and specialized memory card strategy handlers. Ideally save strategies are aligned with other major RomM clients so that you can play your games on any platform.
 - **Multi-Version Game Groups**: Combines regional variants, revisions, and multi-disc releases into a single Steam shortcut with an interactive version selection launcher.
 - **Broad RetroArch Compatibility**: Supports RetroArch across all major distribution flavors (Steam release, standalone installer, Flatpak) as well as RetroDECK on Linux and Steam Deck.
 - **Steam Safety & Rollback Guards**: Monitors running processes to alert you before modifying Steam configuration files, with automated pre-sync backups and one-click rollback support.
