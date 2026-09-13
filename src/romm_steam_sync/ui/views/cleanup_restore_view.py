@@ -106,7 +106,7 @@ class CleanupRestoreView(ctk.CTkFrame):
         refresh_btn = ctk.CTkButton(
             cleanup_controls_frame,
             text="Refresh",
-            command=self.refresh_synced_libraries,
+            command=self.refresh,
             font=ctk.CTkFont(size=14),
             width=100,
         )
@@ -163,12 +163,18 @@ class CleanupRestoreView(ctk.CTkFrame):
         self.backups_list_frame.grid(row=7, column=0, padx=15, pady=5, sticky="ew")
 
         # Load data
+        self.refresh()
+
+    def refresh(self) -> None:
+        """Refresh synced libraries and backups list."""
+        logger.debug("Refreshing CleanupRestoreView data...")
         self.refresh_synced_libraries()
         self.refresh_backups_list()
 
-    def refresh_synced_libraries(self):
+    def refresh_synced_libraries(self) -> None:
         """Fetch synced collections and update option menu."""
         libs = self.sync_service.get_synced_libraries()
+        self.synced_libs_cache = libs
         if not libs:
             self.library_dropdown.configure(values=["No synced libraries found"])
             self.library_dropdown.set("No synced libraries found")
@@ -181,7 +187,6 @@ class CleanupRestoreView(ctk.CTkFrame):
         self.library_dropdown.set(options[0])
         self.remove_selected_btn.configure(state="normal")
         self.remove_all_btn.configure(state="normal")
-        self.synced_libs_cache = libs
 
     def refresh_backups_list(self):
         """Populate list of up to 5 available backups with restore buttons."""
@@ -263,8 +268,7 @@ class CleanupRestoreView(ctk.CTkFrame):
             if ok:
                 logger.info("Removed library '%s' (%d items): %s", lib_name, count, msg)
                 self.cleanup_status_label.configure(text=msg, text_color="#2ecc71")
-                self.refresh_synced_libraries()
-                self.refresh_backups_list()
+                self.refresh()
             else:
                 logger.error("Failed to remove library '%s': %s", lib_name, msg)
                 self.cleanup_status_label.configure(text=msg, text_color="#e74c3c")
@@ -305,8 +309,7 @@ class CleanupRestoreView(ctk.CTkFrame):
             if ok:
                 logger.info("Removed ALL synced libraries (%d items total): %s", count, msg)
                 self.cleanup_status_label.configure(text=msg, text_color="#2ecc71")
-                self.refresh_synced_libraries()
-                self.refresh_backups_list()
+                self.refresh()
             else:
                 logger.error("Failed to remove all synced libraries: %s", msg)
                 self.cleanup_status_label.configure(text=msg, text_color="#e74c3c")
@@ -341,8 +344,7 @@ class CleanupRestoreView(ctk.CTkFrame):
         ok = self.backup_mgr.restore_backup(backup_id, str(config_dir))
         if ok:
             logger.info("Successfully restored backup %s to %s", backup_id, config_dir)
-            self.refresh_synced_libraries()
-            self.refresh_backups_list()
+            self.refresh()
             self._show_rollback_success_modal(backup_id)
         else:
             logger.error("Failed to restore backup %s to %s", backup_id, config_dir)

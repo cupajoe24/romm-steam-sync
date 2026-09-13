@@ -132,6 +132,7 @@ class RommSteamSyncApp(ctk.CTk):
         self.tabview.grid(row=0, column=0, padx=15, pady=15, sticky="nsew")
         self.tabview.set("Library")
         self.library_view.refresh()
+        self.cleanup_view.refresh()
 
     def _on_tab_changed(self) -> None:
         """Handle tab switching events."""
@@ -141,6 +142,8 @@ class RommSteamSyncApp(ctk.CTk):
             self.platform_view.ensure_populated()
         elif current_tab == "Library":
             self.library_view.refresh()
+        elif current_tab == "Cleanup & Restore":
+            self.cleanup_view.refresh()
 
     def _on_server_connected(self) -> None:
         """Handle successful server connection from settings view."""
