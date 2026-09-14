@@ -635,31 +635,13 @@ class LibraryView(ctk.CTkFrame):
             )
             desc_lbl.grid(row=1, column=0)
         else:
-            title_lbl = ctk.CTkLabel(
+            self.empty_msg_label = ctk.CTkLabel(
                 empty_frame,
-                text="No Local ROMs Installed",
-                font=ctk.CTkFont(size=18, weight="bold"),
-            )
-            title_lbl.grid(row=0, column=0, pady=(0, 5))
-
-            desc_lbl = ctk.CTkLabel(
-                empty_frame,
-                text="Download ROMs on demand or perform a Library Sync to manage shortcuts.",
-                font=ctk.CTkFont(size=13),
+                text="No games are installed, open Steam to install and play games.",
+                font=ctk.CTkFont(size=16),
                 text_color="#a0aec0",
             )
-            desc_lbl.grid(row=1, column=0, pady=(0, 15))
-
-            if self.on_navigate_tab:
-                sync_nav_btn = ctk.CTkButton(
-                    empty_frame,
-                    text="Go to Library Sync",
-                    font=ctk.CTkFont(size=13, weight="bold"),
-                    fg_color="#2b6cb0",
-                    hover_color="#2c5282",
-                    command=lambda: self.on_navigate_tab("Library Sync"),
-                )
-                sync_nav_btn.grid(row=2, column=0)
+            self.empty_msg_label.grid(row=0, column=0)
 
     def _open_detail_modal(self, game_item: Dict[str, Any]):
         """Open game detail modal for selected game tile."""

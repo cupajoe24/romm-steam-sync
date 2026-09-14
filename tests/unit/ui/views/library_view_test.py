@@ -386,3 +386,43 @@ def test_openDetailModal_createsAndTracksInstance_andFocusesExistingIfOpen():
         assert mock_modal_cls.call_count == 1
         mock_instance.lift.assert_called_once()
         mock_instance.focus.assert_called_once()
+
+
+def test_renderEmptyState_whenNoSearchQuery_displaysNoGamesInstalledMessage():
+    # Arrange
+    view = LibraryView.__new__(LibraryView)
+    view.scroll_frame = MagicMock()
+    view.on_navigate_tab = MagicMock()
+
+    # Act
+    with patch("customtkinter.CTkFrame"), \
+         patch("customtkinter.CTkLabel") as mock_label, \
+         patch("customtkinter.CTkButton") as mock_button, \
+         patch("customtkinter.CTkFont"):
+        view._render_empty_state(has_search_query=False)
+
+    # Assert
+    expected_msg = "No games are installed, open Steam to install and play games."
+    called_texts = [call.kwargs.get("text") for call in mock_label.call_args_list]
+    assert expected_msg in called_texts
+    assert mock_button.call_count == 0
+
+
+def test_renderEmptyState_whenSearchQuery_displaysNoRomsFound():
+    # Arrange
+    view = LibraryView.__new__(LibraryView)
+    view.scroll_frame = MagicMock()
+    view.on_navigate_tab = MagicMock()
+
+    # Act
+    with patch("customtkinter.CTkFrame"), \
+         patch("customtkinter.CTkLabel") as mock_label, \
+         patch("customtkinter.CTkButton") as mock_button, \
+         patch("customtkinter.CTkFont"):
+        view._render_empty_state(has_search_query=True)
+
+    # Assert
+    called_texts = [call.kwargs.get("text") for call in mock_label.call_args_list]
+    assert "No ROMs Found" in called_texts
+    assert mock_button.call_count == 0
+

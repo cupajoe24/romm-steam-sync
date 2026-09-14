@@ -77,8 +77,22 @@ def test_navigationAndStepTransitions(tmp_path):
             wizard._save_step5_and_next()
             assert wizard.current_step == 6
             assert "nes" in settings.enabled_platforms
+            assert settings.onboarding_complete is False
 
-            # Act 7: Complete onboarding
+            # Act 7: Transition to Step 7 (viewing step 7 flags onboarding_complete)
+            wizard._show_step(7)
+            assert wizard.current_step == 7
+            assert settings.onboarding_complete is True
+            assert completed_called is False
+            expected_msg = (
+                "Library sync is complete, you can re-open Steam and your games "
+                "should appear in Library > Collections. If you want to uninstall "
+                "or manage games come back to this app. Press \"Finish\" to finalize "
+                "onboarding."
+            )
+            assert wizard.step7_msg_label.cget("text") == expected_msg
+
+            # Act 8: Complete onboarding via finish button
             wizard._complete_onboarding()
             assert settings.onboarding_complete is True
             assert completed_called is True
@@ -287,3 +301,69 @@ def test_promptStep6OnTimeout():
         assert choice == "retry"
         view.step6_progress_bar.stop.assert_called_once()
         view.step6_progress_bar.configure.assert_called_with(mode="determinate")
+
+
+def test_showStep_step7FlagsOnboardingComplete():
+    # Arrange
+    view = OnboardingView.__new__(OnboardingView)
+    mock_settings = MagicMock()
+    mock_settings.onboarding_complete = False
+    view.settings = mock_settings
+    view.TOTAL_STEPS = 7
+    view.progress_bar = MagicMock()
+    view.step_indicator_label = MagicMock()
+    view.step_frames = [MagicMock() for _ in range(7)]
+
+    # Act
+    view._show_step(7)
+
+    # Assert
+    assert mock_settings.onboarding_complete is True
+    mock_settings.save.assert_called_once()
+    assert view.current_step == 7
+
+
+def test_completeOnboarding_setsFlagAndCallsCallback():
+    # Arrange
+    view = OnboardingView.__new__(OnboardingView)
+    mock_settings = MagicMock()
+    mock_settings.onboarding_complete = False
+    view.settings = mock_settings
+    mock_callback = MagicMock()
+    view.on_complete = mock_callback
+
+    # Act
+    view._complete_onboarding()
+
+    # Assert
+    assert mock_settings.onboarding_complete is True
+    mock_settings.save.assert_called_once()
+    mock_callback.assert_called_once()
+
+
+def test_initStep7Completion_rendersExpectedMessage():
+    # Arrange
+    view = OnboardingView.__new__(OnboardingView)
+    view.content_card = MagicMock()
+    view.step_frames = []
+
+    # Act
+    with patch("customtkinter.CTkFrame"), \
+         patch("customtkinter.CTkLabel") as mock_label, \
+         patch("customtkinter.CTkButton"), \
+         patch("customtkinter.CTkFont"):
+        view._init_step_7_completion()
+
+    # Assert
+    assert len(view.step_frames) == 1
+    expected_msg = (
+        "Library sync is complete, you can re-open Steam and your games "
+        "should appear in Library > Collections. If you want to uninstall "
+        "or manage games come back to this app. Press \"Finish\" to finalize "
+        "onboarding."
+    )
+    called_texts = [call.kwargs.get("text") for call in mock_label.call_args_list]
+    assert expected_msg in called_texts
+
+
+

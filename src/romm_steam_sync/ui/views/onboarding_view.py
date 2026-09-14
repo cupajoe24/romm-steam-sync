@@ -47,7 +47,7 @@ logger = logging.getLogger(__name__)
 class OnboardingView(ctk.CTkFrame):
     """Multi-step onboarding wizard for first-time application setup."""
 
-    TOTAL_STEPS = 6
+    TOTAL_STEPS = 7
 
     def __init__(
         self,
@@ -78,7 +78,7 @@ class OnboardingView(ctk.CTkFrame):
 
         self.step_indicator_label = ctk.CTkLabel(
             self.header_frame,
-            text="Step 1 of 6",
+            text="Step 1 of 7",
             font=ctk.CTkFont(size=14, weight="bold"),
             text_color="#3498db",
         )
@@ -103,12 +103,13 @@ class OnboardingView(ctk.CTkFrame):
         self._init_step_4_steamgriddb()
         self._init_step_5_platforms()
         self._init_step_6_sync()
+        self._init_step_7_completion()
 
         # Display Step 1
         self._show_step(1)
 
     def _show_step(self, step_num: int):
-        """Navigate to a specific step number (1..6)."""
+        """Navigate to a specific step number (1..7)."""
         logger.info("Navigating to onboarding wizard step %d of %d", step_num, self.TOTAL_STEPS)
         self.current_step = step_num
         self.progress_bar.set(step_num / self.TOTAL_STEPS)
@@ -116,7 +117,7 @@ class OnboardingView(ctk.CTkFrame):
 
         for idx, frame in enumerate(self.step_frames, start=1):
             if idx == step_num:
-                pady_val = (10, 10) if step_num == 6 else 20
+                pady_val = (10, 10) if step_num in (6, 7) else 20
                 frame.grid(row=0, column=0, sticky="nsew", padx=20, pady=pady_val)
             else:
                 frame.grid_forget()
@@ -126,6 +127,10 @@ class OnboardingView(ctk.CTkFrame):
             self._check_retroarch_detection()
         elif step_num == 5:
             self._load_platforms_for_step5()
+        elif step_num == 7:
+            logger.info("Step 7 reached: marking onboarding_complete = True.")
+            self.settings.onboarding_complete = True
+            self.settings.save()
 
     # =========================================================================
     # STEP 1: Welcome Screen
@@ -789,13 +794,13 @@ class OnboardingView(ctk.CTkFrame):
 
         self.step6_finish_btn = ctk.CTkButton(
             nav_bar,
-            text="Finish & Open App",
+            text="Continue",
             font=ctk.CTkFont(size=15, weight="bold"),
             height=36,
             fg_color="#27ae60",
             hover_color="#2ecc71",
             state="disabled",
-            command=self._complete_onboarding,
+            command=lambda: self._show_step(7),
         )
         self.step6_finish_btn.pack(side="right")
 
@@ -940,3 +945,82 @@ class OnboardingView(ctk.CTkFrame):
         self.settings.onboarding_complete = True
         self.settings.save()
         self.on_complete()
+
+    # =========================================================================
+    # STEP 7: Onboarding Completion
+    # =========================================================================
+    def _init_step_7_completion(self) -> None:
+        """Initialize the final step 7 completion card."""
+        frame = ctk.CTkFrame(self.content_card, fg_color="transparent")
+        frame.grid_columnconfigure(0, weight=1)
+
+        title = ctk.CTkLabel(
+            frame,
+            text="Step 7: Setup Complete",
+            font=ctk.CTkFont(size=22, weight="bold"),
+        )
+        title.pack(anchor="w", pady=(0, 5))
+
+        sub = ctk.CTkLabel(
+            frame,
+            text="Your initial configuration and library synchronization are complete.",
+            font=ctk.CTkFont(size=15),
+            text_color="gray",
+        )
+        sub.pack(anchor="w", pady=(0, 15))
+
+        # Completion Message Card
+        msg_card = ctk.CTkFrame(frame, corner_radius=8)
+        msg_card.pack(fill="both", expand=True, padx=10, pady=15)
+        msg_card.grid_columnconfigure(0, weight=1)
+
+        heading = ctk.CTkLabel(
+            msg_card,
+            text="Ready to Play!",
+            font=ctk.CTkFont(size=20, weight="bold"),
+            text_color="#2ecc71",
+        )
+        heading.pack(pady=(35, 15))
+
+        message_text = (
+            "Library sync is complete, you can re-open Steam and your games "
+            "should appear in Library > Collections. If you want to uninstall "
+            "or manage games come back to this app. Press \"Finish\" to finalize "
+            "onboarding."
+        )
+
+        self.step7_msg_label = ctk.CTkLabel(
+            msg_card,
+            text=message_text,
+            font=ctk.CTkFont(size=16),
+            justify="center",
+            wraplength=650,
+        )
+        self.step7_msg_label.pack(padx=30, pady=(0, 35))
+
+        # Navigation Bar
+        nav_bar = ctk.CTkFrame(frame, fg_color="transparent")
+        nav_bar.pack(fill="x", side="bottom", pady=10)
+
+        back_btn = ctk.CTkButton(
+            nav_bar,
+            text="Back",
+            font=ctk.CTkFont(size=15),
+            fg_color="#34495e",
+            command=lambda: self._show_step(6),
+        )
+        back_btn.pack(side="left")
+
+        self.step7_finish_btn = ctk.CTkButton(
+            nav_bar,
+            text="Finish",
+            font=ctk.CTkFont(size=16, weight="bold"),
+            height=40,
+            fg_color="#27ae60",
+            hover_color="#2ecc71",
+            command=self._complete_onboarding,
+        )
+        self.step7_finish_btn.pack(side="right")
+
+        self.step_frames.append(frame)
+
